@@ -371,6 +371,13 @@
   .quiz-meta { align-items: center; }
   .quiz-meta .ty-wrap { margin-right: 2px; }
   .result-card .ty-wrap { margin: 0 auto; display: block; }
+  /* 3D 库还在加载时，先显示一个糯米色圆球占位，避免位置短暂空白 */
+  [data-ty3d]:empty::after {
+    content: ''; display: block; width: 72%; height: 72%; margin: 14%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 36% 30%, #ffffff 0%, #f8f0e4 55%, #e8dbca 100%);
+    box-shadow: 0 6px 12px rgba(120,95,60,.12);
+  }
   .coin-float {
     position: fixed; left: 50%; top: 40%; transform: translateX(-50%);
     font-size: 22px; font-weight: 800; color: #e8a13c; z-index: 99;
