@@ -399,7 +399,7 @@
   <section class="screen active" id="screen-home">
     <div class="hero">
       <div class="hero-mascot">
-        <span id="homeMascot"></span>
+        <span id="homeMascot" data-ty3d="home" data-ty-size="104"></span>
         <div class="ty-bubble">
           <span class="ty-name">汤圆小侠 · 圆圆</span>
           我是糯米汤圆圆圆，每一关都陪你一起闯！
@@ -454,7 +454,7 @@
     </div>
     <div class="quiz-card">
       <div class="quiz-meta">
-        <span id="quizMascot"></span>
+        <span id="quizMascot" data-ty3d="quiz" data-ty-size="44"></span>
         <span id="quizCounter"></span>
         <span>🪙 +1 / 题</span>
       </div>
@@ -475,7 +475,7 @@
   <!-- 结果页 -->
   <section class="screen" id="screen-result">
     <div class="result-card">
-      <div id="resultEmoji"></div>
+      <div id="resultEmoji" data-ty3d="result" data-ty-size="120"></div>
       <h3 id="resultTitle">闯关成功</h3>
       <div class="result-stars" id="resultStars">★★★</div>
       <div class="result-score" id="resultScore">0 / 0</div>
@@ -489,6 +489,8 @@
   </section>
 </main>
 
+<script src="three.min.js"></script>
+<script src="tangyuan3d.js"></script>
 <script src="data.js"></script>
 <script>
 /* ================================================================
@@ -638,7 +640,10 @@ function tangyuan(mood, size) {
   </span>`;
 }
 
+let mascotCurrentMood = 'happy';
+
 function mascotReact(kind) {
+  if (window.TY3D && TY3D.available) { TY3D.react(kind); return; }
   document.querySelectorAll('.ty-wrap').forEach(el => {
     el.classList.remove('hop', 'wobble');
     void el.offsetWidth;
@@ -646,8 +651,30 @@ function mascotReact(kind) {
   });
 }
 function mascotMood(mood) {
-  const el = document.getElementById('quizMascot');
-  if (el) el.innerHTML = tangyuan(mood, 40);
+  mascotCurrentMood = mood;
+  if (window.TY3D && TY3D.available) { TY3D.mood(mood); return; }
+  document.querySelectorAll('.ty-wrap').forEach(el => {
+    const size = parseInt(el.style.getPropertyValue('--ty'), 10) || 64;
+    el.outerHTML = tangyuan(mood, size);
+  });
+}
+function mascotSlot(key, size) {
+  return `<span data-ty3d="${key}" data-ty-size="${size}"></span>`;
+}
+/* 把手里的 3D 插槽挂载成实例；WebGL 不可用时退回 SVG 形象 */
+function refreshMascots() {
+  const slots = document.querySelectorAll('[data-ty3d]');
+  if (window.TY3D && TY3D.available) TY3D.cleanup();
+  slots.forEach(el => {
+    const size = parseInt(el.dataset.tySize || '96', 10);
+    if (window.TY3D && TY3D.available) {
+      if (!TY3D.mount(el, el.dataset.ty3d, size, { mood: mascotCurrentMood })) {
+        el.innerHTML = tangyuan(mascotCurrentMood, size);
+      }
+    } else {
+      el.innerHTML = tangyuan(mascotCurrentMood, size);
+    }
+  });
 }
 
 /* ================================================================
@@ -909,8 +936,8 @@ function show(screenId) {
 }
 let currentSem = null;
 let currentLevel = null;
-function goHome() { show('screen-home'); renderHome(); }
-function goSem() { if (currentSem) { show('screen-sem'); renderSem(); } else goHome(); }
+function goHome() { mascotMood('happy'); show('screen-home'); renderHome(); }
+function goSem() { if (currentSem) { mascotMood('happy'); show('screen-sem'); renderSem(); } else goHome(); }
 
 function renderHome() {
   const done = doneLevels(), total = totalLevels();
@@ -966,7 +993,7 @@ function renderSem() {
       <div class="journey-head"><b>🥣 圆圆陪你闯关</b><span>已闯 ${done} / ${list.length} 关</span></div>
       <div class="journey-rail">
         <div class="journey-track"><i style="width:${pct}%"></i></div>
-        <div class="journey-avatar" style="left:${Math.min(94, Math.max(6, pct))}%">${tangyuan('happy', 54)}</div>
+        <div class="journey-avatar" style="left:${Math.min(94, Math.max(6, pct))}%">${mascotSlot('sem', 62)}</div>
       </div>
       <div class="journey-foot">
         <span>起点</span>
@@ -985,6 +1012,7 @@ function renderSem() {
       <div class="tip">${p2ok ? '已解锁：每首带作者简介、逐句讲解、译文与赏析' : '本册第一章全部通关后解锁'}</div>
       ${renderGroup({ label: '④ 古诗词讲解闯关', icon: '🎋', items: part2 }, list)}
     </div>`;
+  refreshMascots();
 }
 
 function renderGroup(gr, fullList) {
@@ -1081,6 +1109,8 @@ function startQuiz() {
   const sem = SEMESTERS.find(s => s.id === currentLevel.sem);
   document.getElementById('quizLevelName').textContent = sem.name;
   show('screen-quiz');
+  mascotMood('happy');
+  refreshMascots();
   renderQuestion();
 }
 
@@ -1212,7 +1242,7 @@ function finishLevel() {
     SOUNDS.wrong();
   }
   saveProgress();
-  document.getElementById('resultEmoji').innerHTML = tangyuan(stars >= 1 ? 'cheer' : 'worry', 108);
+  mascotMood(stars >= 1 ? 'cheer' : 'worry');
   document.getElementById('resultTitle').textContent = stars >= 1 ? '闯关成功' : '再接再厉';
   document.getElementById('resultStars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
   document.getElementById('resultScore').textContent = `答对 ${correctCount} / ${total} 题`;
@@ -1224,6 +1254,7 @@ function finishLevel() {
   const nb = document.getElementById('resultNextBtn');
   nb.style.display = next ? '' : 'none';
   nb.textContent = next ? '下一关：' + shortTitle(next.title) : '';
+  refreshMascots();
   show('screen-result');
 }
 
@@ -1247,9 +1278,9 @@ function retryLevel() { startLevel(currentLevel.id); }
 const soundBtn = document.getElementById('soundBtn');
 if (soundBtn) soundBtn.textContent = soundOn ? '🔊' : '🔇';
 document.getElementById('coinDisplay').textContent = coins;
-document.getElementById('homeMascot').innerHTML = tangyuan('happy', 96);
 mascotMood('happy');
 renderHome();
+refreshMascots();
 </script>
 </body>
 </html>
