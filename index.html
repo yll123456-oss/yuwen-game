@@ -277,6 +277,100 @@
     background: #fff8ec; border: 1px solid #f0d9a8; color: #8a6a1a;
     font-size: 11.5px; border-radius: 12px; padding: 8px 12px; margin: 10px 0; text-align: center;
   }
+
+  /* ---------- 汤圆小主角（原创形象） ---------- */
+  .ty-wrap {
+    display: inline-block; width: var(--ty, 64px); height: var(--ty, 64px);
+    vertical-align: middle; position: relative; flex-shrink: 0;
+  }
+  .ty-wrap svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .ty-body { animation: tyBounce 2.4s ease-in-out infinite; }
+  .ty-eyes { animation: tyBlink 4.6s infinite; }
+  .ty-cheek { animation: tyCheek 2.4s ease-in-out infinite; }
+  .ty-shadow { animation: tyShadow 2.4s ease-in-out infinite; }
+  .ty-steam path { animation: tySteam 2.8s ease-in-out infinite; }
+  .ty-steam path:nth-child(2) { animation-delay: .7s; }
+  .ty-steam path:nth-child(3) { animation-delay: 1.4s; }
+  .ty-arm-l { animation: tyArmL 2.4s ease-in-out infinite; transform-origin: 26px 72px; }
+  .ty-arm-r { animation: tyArmR 2.4s ease-in-out infinite; transform-origin: 94px 72px; }
+  @keyframes tyBounce {
+    0%, 100% { transform: translateY(0) scale(1, 1); }
+    45% { transform: translateY(-5px) scale(.985, 1.02); }
+    58% { transform: translateY(1px) scale(1.02, .98); }
+  }
+  @keyframes tyShadow {
+    0%, 100% { transform: scaleX(1); opacity: .16; }
+    45% { transform: scaleX(.85); opacity: .10; }
+  }
+  @keyframes tyBlink {
+    0%, 91%, 100% { transform: scaleY(1); }
+    94% { transform: scaleY(.12); }
+  }
+  @keyframes tyCheek { 0%, 100% { opacity: .40; } 50% { opacity: .62; } }
+  @keyframes tySteam {
+    0% { opacity: 0; transform: translateY(5px); }
+    40% { opacity: .55; }
+    100% { opacity: 0; transform: translateY(-9px); }
+  }
+  @keyframes tyArmL { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-13deg); } }
+  @keyframes tyArmR { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(13deg); } }
+  .ty-wrap.hop { animation: tyHop .68s cubic-bezier(.3, -.4, .4, 1.4); }
+  @keyframes tyHop {
+    0% { transform: translateY(0) scale(1, 1); }
+    30% { transform: translateY(-24px) rotate(-7deg) scale(.96, 1.05); }
+    62% { transform: translateY(0) rotate(3deg) scale(1.06, .92); }
+    100% { transform: translateY(0) rotate(0) scale(1, 1); }
+  }
+  .ty-wrap.wobble { animation: tyWobble .55s ease-in-out; }
+  @keyframes tyWobble {
+    0%, 100% { transform: rotate(0); }
+    18% { transform: rotate(-10deg); }
+    48% { transform: rotate(9deg); }
+    78% { transform: rotate(-5deg); }
+  }
+  .ty-spark { opacity: 0; }
+  .ty-wrap.hop .ty-spark { animation: tySpark .7s ease-out; }
+  @keyframes tySpark {
+    0% { opacity: 0; transform: scale(.6); }
+    45% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.3); }
+  }
+
+  .hero-mascot { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .ty-bubble {
+    background: #fff; border: 1.5px solid var(--line); border-radius: 14px;
+    padding: 8px 12px; font-size: 12.5px; line-height: 1.6; color: #7a6a4e;
+    position: relative; max-width: 230px; text-align: left;
+    box-shadow: 0 3px 10px rgba(80,60,30,.06);
+  }
+  .ty-bubble::before {
+    content: ''; position: absolute; left: -8px; top: 50%; margin-top: -6px;
+    border: 7px solid transparent; border-right-color: var(--line); border-left: 0;
+  }
+  .ty-name { display: block; font-weight: 700; color: var(--red-d); font-size: 13px; margin-bottom: 2px; }
+
+  .journey {
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 16px;
+    padding: 16px 18px 30px; margin-bottom: 14px; box-shadow: var(--shadow);
+  }
+  .journey-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .journey-head b { font-size: 14px; letter-spacing: 1px; }
+  .journey-head span { margin-left: auto; font-size: 12px; color: var(--ink-2); }
+  .journey-rail { position: relative; margin: 42px 6px 10px; }
+  .journey-track { height: 10px; background: #f1e7d4; border-radius: 8px; position: relative; }
+  .journey-track i {
+    position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px;
+    background: linear-gradient(90deg, #f2c46b, var(--red)); transition: width .7s ease;
+  }
+  .journey-avatar {
+    position: absolute; bottom: 4px; transform: translateX(-50%);
+    transition: left .7s cubic-bezier(.34, 1.4, .5, 1);
+  }
+  .journey-foot { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-2); margin-top: 8px; }
+
+  .quiz-meta { align-items: center; }
+  .quiz-meta .ty-wrap { margin-right: 2px; }
+  .result-card .ty-wrap { margin: 0 auto; display: block; }
   .coin-float {
     position: fixed; left: 50%; top: 40%; transform: translateX(-50%);
     font-size: 22px; font-weight: 800; color: #e8a13c; z-index: 99;
@@ -304,7 +398,13 @@
   <!-- 首页 -->
   <section class="screen active" id="screen-home">
     <div class="hero">
-      <div class="em">🏮</div>
+      <div class="hero-mascot">
+        <span id="homeMascot"></span>
+        <div class="ty-bubble">
+          <span class="ty-name">汤圆小侠 · 圆圆</span>
+          我是糯米汤圆圆圆，每一关都陪你一起闯！
+        </div>
+      </div>
       <h2>语文小乐园</h2>
       <p>识字 · 写字 · 默写 · 日积月累 · 古诗词讲解</p>
     </div>
@@ -354,6 +454,7 @@
     </div>
     <div class="quiz-card">
       <div class="quiz-meta">
+        <span id="quizMascot"></span>
         <span id="quizCounter"></span>
         <span>🪙 +1 / 题</span>
       </div>
@@ -374,7 +475,7 @@
   <!-- 结果页 -->
   <section class="screen" id="screen-result">
     <div class="result-card">
-      <div class="em" id="resultEmoji">🎉</div>
+      <div id="resultEmoji"></div>
       <h3 id="resultTitle">闯关成功</h3>
       <div class="result-stars" id="resultStars">★★★</div>
       <div class="result-score" id="resultScore">0 / 0</div>
@@ -481,6 +582,72 @@ function speakOnline(text) {
     a.play().catch(() => {});
     ttsAudio = a;
   } catch (e) {}
+}
+
+/* ================================================================
+   汤圆小主角「圆圆」（原创形象，纯 SVG 手绘，不涉及第三方 IP）
+   ================================================================ */
+const TY_FACES = {
+  happy: `<g class="ty-eyes" stroke="#5b4a38" stroke-width="3.2" fill="none" stroke-linecap="round">
+      <path d="M43 66 q5 -6 10 0"/><path d="M67 66 q5 -6 10 0"/></g>
+    <path d="M55 82 q5 5 10 0" stroke="#5b4a38" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+  cheer: `<g class="ty-eyes">
+      <circle cx="48" cy="66" r="4.4" fill="#5b4a38"/><circle cx="72" cy="66" r="4.4" fill="#5b4a38"/>
+      <circle cx="49.6" cy="64.2" r="1.5" fill="#fff"/><circle cx="73.6" cy="64.2" r="1.5" fill="#fff"/></g>
+    <path d="M52 80 q8 9 16 0" stroke="#5b4a38" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+  worry: `<g class="ty-eyes" stroke="#5b4a38" stroke-width="3.2" fill="none" stroke-linecap="round">
+      <path d="M43 68 q5 5 10 0"/><path d="M67 68 q5 5 10 0"/></g>
+    <path d="M54 84 q6 -5 12 0" stroke="#5b4a38" stroke-width="3" fill="none" stroke-linecap="round"/>`
+};
+
+function tangyuan(mood, size) {
+  const face = TY_FACES[mood] || TY_FACES.happy;
+  const s = size || 64;
+  return `<span class="ty-wrap" style="--ty:${s}px">
+    <svg viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <radialGradient id="tyGrad" cx="36%" cy="30%" r="76%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="58%" stop-color="#fdf8f0"/>
+          <stop offset="100%" stop-color="#ebdfd1"/>
+        </radialGradient>
+      </defs>
+      <ellipse class="ty-shadow" cx="60" cy="107" rx="27" ry="5.5" fill="#c9b79a"/>
+      <g class="ty-steam" stroke="#dccbb2" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M49 25 q6 -6 0 -13"/><path d="M60 21 q6 -6 0 -13"/><path d="M71 25 q6 -6 0 -13"/>
+      </g>
+      <g class="ty-body">
+        <ellipse class="ty-arm-l" cx="21" cy="73" rx="7" ry="9.5" fill="#fdf8f0" stroke="#e4d6c4" stroke-width="1.6"/>
+        <ellipse class="ty-arm-r" cx="99" cy="73" rx="7" ry="9.5" fill="#fdf8f0" stroke="#e4d6c4" stroke-width="1.6"/>
+        <ellipse cx="60" cy="70" rx="40" ry="35" fill="url(#tyGrad)" stroke="#e4d6c4" stroke-width="1.8"/>
+        <g transform="translate(89 42)">
+          <circle r="3.6" fill="#f3b75f"/>
+          <circle cx="6.2" cy="1.6" r="3.2" fill="#f7cd8c"/>
+          <circle cx="-6" cy="1.4" r="3" fill="#f7cd8c"/>
+          <circle cx="2.4" cy="-5.4" r="2.8" fill="#f9dcae"/>
+          <circle cx="0" cy="-0.4" r="1.5" fill="#c8892f"/>
+        </g>
+        <ellipse class="ty-cheek" cx="39" cy="77" rx="7.5" ry="4.6" fill="#f2a8a0"/>
+        <ellipse class="ty-cheek" cx="81" cy="77" rx="7.5" ry="4.6" fill="#f2a8a0"/>
+        ${face}
+        <g class="ty-spark" stroke="#f3b75f" stroke-width="3" stroke-linecap="round">
+          <path d="M14 44 l0 -8"/><path d="M9 49 l-7 -3"/><path d="M106 42 l0 -8"/><path d="M111 47 l7 -3"/>
+        </g>
+      </g>
+    </svg>
+  </span>`;
+}
+
+function mascotReact(kind) {
+  document.querySelectorAll('.ty-wrap').forEach(el => {
+    el.classList.remove('hop', 'wobble');
+    void el.offsetWidth;
+    el.classList.add(kind === 'wrong' ? 'wobble' : 'hop');
+  });
+}
+function mascotMood(mood) {
+  const el = document.getElementById('quizMascot');
+  if (el) el.innerHTML = tangyuan(mood, 40);
 }
 
 /* ================================================================
@@ -787,12 +954,25 @@ function renderSem() {
   document.getElementById('semProgress').textContent = `${done} / ${list.length} 关`;
   const part1 = list.filter(l => l.part === 1);
   const part2 = list.filter(l => l.part === 2);
+  const pct = list.length ? Math.round(done / list.length * 100) : 0;
+  const nextLv = list.find(l => levelUnlocked(l, list) && !passed(l.id));
   const groups = [
     { label: '① 识字关', icon: '👀', items: part1.filter(l => l.type === 'read') },
     { label: '② 写字关', icon: '✍️', items: part1.filter(l => l.type === 'write') },
     { label: '③ 默写关', icon: '📝', items: part1.filter(l => l.type === 'dictate') }
   ];
   document.getElementById('semContent').innerHTML = `
+    <div class="journey">
+      <div class="journey-head"><b>🥣 圆圆陪你闯关</b><span>已闯 ${done} / ${list.length} 关</span></div>
+      <div class="journey-rail">
+        <div class="journey-track"><i style="width:${pct}%"></i></div>
+        <div class="journey-avatar" style="left:${Math.min(94, Math.max(6, pct))}%">${tangyuan('happy', 54)}</div>
+      </div>
+      <div class="journey-foot">
+        <span>起点</span>
+        <span>${nextLv ? '下一关 · ' + nextLv.title : '本册已全部通关 🎉'}</span>
+      </div>
+    </div>
     <div class="chapter">
       <div class="ch-head"><span class="em">📖</span><b>第一章 · 基础字词</b>
         <span>${part1.filter(l => passed(l.id)).length}/${part1.length}</span></div>
@@ -928,6 +1108,8 @@ function renderQuestion() {
   fb.textContent = '';
   fb.className = 'quiz-feedback';
   document.getElementById('quizNextBtn').disabled = true;
+  mascotMood('happy');
+  document.querySelectorAll('.ty-wrap').forEach(el => el.classList.remove('hop', 'wobble'));
   if (q.type === 'listen') speak(q.audio);
 }
 
@@ -941,6 +1123,8 @@ function answer(i) {
     correctCount++;
     btns[i].classList.add('right');
     showFeedback(true);
+    mascotMood('cheer');
+    mascotReact('correct');
     addCoins(1);
     floatCoin();
     SOUNDS.coin();
@@ -948,6 +1132,8 @@ function answer(i) {
     btns[i].classList.add('wrong');
     if (q.options[q.a] !== undefined) btns[q.a].classList.add('right');
     showFeedback(false, q.options[q.a]);
+    mascotMood('worry');
+    mascotReact('wrong');
     SOUNDS.wrong();
   }
   enableNext();
@@ -962,11 +1148,15 @@ function submitInput() {
   if (ok) {
     correctCount++;
     showFeedback(true);
+    mascotMood('cheer');
+    mascotReact('correct');
     addCoins(1);
     floatCoin();
     SOUNDS.coin();
   } else {
     showFeedback(false, q.answers[0]);
+    mascotMood('worry');
+    mascotReact('wrong');
     SOUNDS.wrong();
   }
   document.getElementById('quizInput').disabled = true;
@@ -1022,7 +1212,7 @@ function finishLevel() {
     SOUNDS.wrong();
   }
   saveProgress();
-  document.getElementById('resultEmoji').textContent = stars >= 1 ? '🎉' : '💪';
+  document.getElementById('resultEmoji').innerHTML = tangyuan(stars >= 1 ? 'cheer' : 'worry', 108);
   document.getElementById('resultTitle').textContent = stars >= 1 ? '闯关成功' : '再接再厉';
   document.getElementById('resultStars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
   document.getElementById('resultScore').textContent = `答对 ${correctCount} / ${total} 题`;
@@ -1057,6 +1247,8 @@ function retryLevel() { startLevel(currentLevel.id); }
 const soundBtn = document.getElementById('soundBtn');
 if (soundBtn) soundBtn.textContent = soundOn ? '🔊' : '🔇';
 document.getElementById('coinDisplay').textContent = coins;
+document.getElementById('homeMascot').innerHTML = tangyuan('happy', 96);
+mascotMood('happy');
 renderHome();
 </script>
 </body>
